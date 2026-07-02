@@ -1,5 +1,7 @@
 # DocPilot Demo - AI Knowledge Base Assistant
 
+[中文说明](README.zh-CN.md)
+
 DocPilot Demo is a local-first AI knowledge base assistant built with Next.js. It lets users import documents, web links, images, quick notes, and video links into a searchable knowledge base, then ask questions with cited source snippets.
 
 This repository is packaged as a GitHub-friendly demo for AI/RAG product workflows: ingestion, retrieval, cited answers, chat history, library management, annotation, and prompt material generation.

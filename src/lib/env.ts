@@ -7,7 +7,11 @@ const envSchema = z
     SUPABASE_URL: z.string().url().optional(),
     SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
     OPENAI_API_KEY: z.string().min(1).optional(),
-    OPENAI_BASE_URL: z.string().url().default("https://api.openai.com/v1"),
+    OPENAI_BASE_URL: z
+      .string()
+      .optional()
+      .transform((value) => (value?.trim() ? value.trim() : undefined))
+      .pipe(z.string().url().optional()),
     OPENAI_WIRE_API: z.enum(["responses", "chat_completions"]).default("responses"),
     OPENAI_DISABLE_RESPONSE_STORAGE: z
       .enum(["true", "false"])

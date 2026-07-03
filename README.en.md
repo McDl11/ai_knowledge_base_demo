@@ -46,7 +46,7 @@ Fill `OPENAI_API_KEY` in `.env.local` before using AI-backed chat, image underst
 DATABASE_PROVIDER=local
 LOCAL_DB_PATH=data/local-db.json
 OPENAI_API_KEY=
-OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_BASE_URL=
 OPENAI_WIRE_API=responses
 OPENAI_DISABLE_RESPONSE_STORAGE=true
 OPENAI_CHAT_MODEL=gpt-4o-mini

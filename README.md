@@ -73,7 +73,7 @@ http://localhost:3000
 DATABASE_PROVIDER=local
 LOCAL_DB_PATH=data/local-db.json
 OPENAI_API_KEY=
-OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_BASE_URL=
 OPENAI_WIRE_API=responses
 OPENAI_DISABLE_RESPONSE_STORAGE=true
 OPENAI_CHAT_MODEL=gpt-4o-mini
@@ -91,7 +91,7 @@ VIDEO_FFMPEG_PATH=ffmpeg
 DOUYIN_VIDEO_COMMAND_TIMEOUT_MS=180000
 ```
 
-`OPENAI_BASE_URL` 可以换成任何 OpenAI-compatible 网关。默认的 `local-hash-embedding-v1` 是本地兜底 embedding，文档入库时不会额外调用云端 embedding。
+`OPENAI_BASE_URL` 是可选项。使用官方 OpenAI 服务时可以留空；如果使用 OpenAI-compatible 网关，再填入对应地址。默认的 `local-hash-embedding-v1` 是本地兜底 embedding，文档入库时不会额外调用云端 embedding。
 
 ## 推荐演示流程
 

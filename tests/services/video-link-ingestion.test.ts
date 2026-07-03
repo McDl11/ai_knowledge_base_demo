@@ -18,7 +18,7 @@ vi.mock("@/lib/env", () => ({
     SUPABASE_URL: undefined,
     SUPABASE_SERVICE_ROLE_KEY: undefined,
     OPENAI_API_KEY: "openai-key",
-    OPENAI_BASE_URL: "https://api.openai.com/v1",
+    OPENAI_BASE_URL: "https://example.com/v1",
     OPENAI_WIRE_API: "responses",
     OPENAI_DISABLE_RESPONSE_STORAGE: true,
     OPENAI_CHAT_MODEL: "gpt-4o-mini",

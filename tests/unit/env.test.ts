@@ -12,7 +12,7 @@ describe("parseServerEnv", () => {
     expect(env.DATABASE_PROVIDER).toBe("local");
     expect(env.LOCAL_DB_PATH).toBe("data/local-db.json");
     expect(env.OPENAI_API_KEY).toBe("openai-key");
-    expect(env.OPENAI_BASE_URL).toBe("https://api.openai.com/v1");
+    expect(env.OPENAI_BASE_URL).toBeUndefined();
     expect(env.OPENAI_WIRE_API).toBe("responses");
     expect(env.OPENAI_DISABLE_RESPONSE_STORAGE).toBe(true);
     expect(env.OPENAI_CHAT_MODEL).toBe("gpt-4o-mini");
@@ -44,6 +44,15 @@ describe("parseServerEnv", () => {
     });
 
     expect(env.OPENAI_REASONING_EFFORT).toBe("medium");
+  });
+
+  it("parses an optional OpenAI-compatible base URL", () => {
+    const env = parseServerEnv({
+      ...requiredEnv,
+      OPENAI_BASE_URL: "https://example.com/v1",
+    });
+
+    expect(env.OPENAI_BASE_URL).toBe("https://example.com/v1");
   });
 
   it("requires Supabase values only in Supabase mode", () => {

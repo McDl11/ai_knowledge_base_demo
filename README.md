@@ -1,52 +1,59 @@
-# DocPilot Demo - AI Knowledge Base Assistant
+# DocPilot Demo：本地优先的 AI 知识库助手
 
-[中文说明](README.zh-CN.md)
+[English README](README.en.md)
 
-DocPilot Demo is a local-first AI knowledge base assistant built with Next.js. It lets users import documents, web links, images, quick notes, and video links into a searchable knowledge base, then ask questions with cited source snippets.
+DocPilot Demo 是一个面向个人资料整理和作品集展示的 AI 知识库助手。它可以把文档、网页链接、图片、随手记录和视频链接放进同一个资料库，再围绕这些资料做问答、溯源、标注和素材整理。
 
-This repository is packaged as a GitHub-friendly demo for AI/RAG product workflows: ingestion, retrieval, cited answers, chat history, library management, annotation, and prompt material generation.
+这个项目不是一个只停留在聊天框里的 RAG demo。它更像一个小型资料工作台：资料先入库，系统会解析内容、切片、分类和保存来源；提问时会带着引用回答；后续还可以回到资料库里查看原文、补充说明、添加片段注释，或者把选中的资料生成可交给 AI 继续处理的提示词。
 
-## Features
+![DocPilot 工作台](docs/images/workbench-empty.png)
 
-- Import `.txt`, `.md`, `.markdown`, `.pdf`, `.docx`, `.xlsx`, `.xls`, `.pptx`, `.csv`, `.html`, `.htm`, `.jpg`, `.jpeg`, `.png`, and `.webp` files.
-- Save quick notes and web links from the main composer.
-- Extract visible text and descriptions from images through the configured AI model.
-- Detect Douyin video links and process them into searchable knowledge notes when a downloader and `ffmpeg` are configured.
-- Ask questions over imported materials with source citations.
-- Manage chat history: resume, rename, and delete conversations.
-- Manage the library: search, filter, view source text, delete, export, add processing notes, and annotate source snippets.
-- Generate structured prompt materials from selected knowledge items.
-- Run locally with a JSON database by default; optionally switch to Supabase/PostgreSQL.
+## 这个 demo 展示什么
 
-## Tech Stack
+- **资料入库**：支持 Markdown、PDF、Office、CSV、HTML、图片和网页链接。默认用本地 JSON 保存，不需要先搭数据库。
+- **资料问答**：围绕已入库内容提问，回答会带来源片段，方便检查依据。
+- **资料库管理**：可以搜索、筛选、查看原文、导出、删除，也可以给资料补处理说明。
+- **片段标注**：在原文里选一段内容，为它添加注释，适合做调研和项目复盘。
+- **视频链接处理**：配置下载器和 `ffmpeg` 后，可以把抖音视频链接整理成可检索的知识笔记。
+- **分类确认**：系统不确定资料属于哪一类时，会把判断权交还给用户。
+- **素材生成**：选中资料后，可以生成项目计划、功能清单、竞品分析等结构化提示词。
+- **历史对话**：支持查看、恢复、重命名和删除历史会话。
 
-- Next.js 16, React 19, TypeScript
+## 页面预览
+
+### 资料库与视频处理
+
+资料库页面可以看到每条资料的来源、类型、状态和处理结果。视频类资料会展示处理进度，比如下载视频、语音转文字、抽取画面、识别画面和整理知识笔记。
+
+![资料库视频处理](docs/images/library-video-processing.png)
+
+### 原文、注释与素材生成
+
+资料详情里保留原文内容，右侧可以给片段添加注释。左侧素材生成区可以选中多条资料，生成一段更适合继续交给 AI 使用的结构化提示。
+
+![资料原文与注释](docs/images/library-source-and-notes.png)
+
+### 分类确认和设置
+
+当系统不确定资料应该归到哪一类时，会在工作台里提示用户确认。设置弹窗目前保持克制，只放回答风格等必要选项，模型和密钥继续走环境变量。
+
+![分类确认](docs/images/classification-review.png)
+
+![设置弹窗](docs/images/settings-dialog.png)
+
+## 技术栈
+
+- Next.js 16、React 19、TypeScript
 - Tailwind CSS
-- OpenAI SDK with Responses API or Chat Completions support
-- Local JSON database at `data/local-db.json`
-- Optional Supabase/PostgreSQL + pgvector schema
-- `pdf-parse`, `mammoth`, `jszip`, `cheerio`
-- Vitest and Playwright
+- OpenAI SDK，支持 Responses API 和 Chat Completions
+- 本地 JSON 数据库，默认路径是 `data/local-db.json`
+- 可选 Supabase/PostgreSQL + pgvector
+- `pdf-parse`、`mammoth`、`jszip`、`cheerio`
+- Vitest、Playwright
 
-## Project Structure
+## 快速启动
 
-```text
-src/app/                 Next.js pages and API routes
-src/components/          Workbench and library UI
-src/lib/ai/              OpenAI-compatible calls, embeddings, image/video helpers
-src/lib/chat/            Chat orchestration
-src/lib/db/              Local JSON and Supabase repositories
-src/lib/knowledge/       File parsing, ingestion, classification, export, notes
-src/lib/rag/             Retrieval, citation, answer policy, query planning
-src/lib/video/           Video download, transcription, frame extraction helpers
-docs/demo/               Small sample documents for local demos
-supabase/migrations/     Optional Supabase schema
-tests/                   Unit, service, and e2e tests
-```
-
-## Quick Start
-
-Requires Node.js 20.9 or newer.
+需要 Node.js 20.9 或更高版本。
 
 ```bash
 npm install
@@ -54,9 +61,13 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+然后打开：
 
-Fill `OPENAI_API_KEY` in `.env.local` before using AI-backed chat, image understanding, query planning, or video summaries.
+```text
+http://localhost:3000
+```
+
+使用 AI 问答、图片理解、查询规划或视频总结前，需要在 `.env.local` 里填写 `OPENAI_API_KEY`。
 
 ```dotenv
 DATABASE_PROVIDER=local
@@ -66,7 +77,7 @@ OPENAI_BASE_URL=https://api.openai.com/v1
 OPENAI_WIRE_API=responses
 OPENAI_DISABLE_RESPONSE_STORAGE=true
 OPENAI_CHAT_MODEL=gpt-4o-mini
-# Optional for reasoning-capable models: none, minimal, low, medium, high, xhigh
+# 可选，仅推理模型需要：none, minimal, low, medium, high, xhigh
 # OPENAI_REASONING_EFFORT=medium
 OPENAI_EMBEDDING_MODEL=local-hash-embedding-v1
 RAG_MATCH_THRESHOLD=0.78
@@ -80,46 +91,45 @@ VIDEO_FFMPEG_PATH=ffmpeg
 DOUYIN_VIDEO_COMMAND_TIMEOUT_MS=180000
 ```
 
-`OPENAI_BASE_URL` can point to any OpenAI-compatible gateway. The default embedding mode is `local-hash-embedding-v1`, so document indexing does not require cloud embeddings. `OPENAI_REASONING_EFFORT` is optional and should only be enabled for models that support reasoning controls.
+`OPENAI_BASE_URL` 可以换成任何 OpenAI-compatible 网关。默认的 `local-hash-embedding-v1` 是本地兜底 embedding，文档入库时不会额外调用云端 embedding。
 
-## Demo Flow
+## 推荐演示流程
 
-1. Start the app and open the DocPilot workbench.
-2. Upload `docs/demo/售后FAQ.md`.
-3. Wait until the material is ready.
-4. Ask: `这个产品支持退款吗？`
-5. Expand the citations to inspect the source snippet.
-6. Open the library page to search, annotate, export, or generate prompt materials.
-7. Rename or delete the conversation from the history sidebar.
+1. 启动应用，进入 DocPilot 工作台。
+2. 上传 `docs/demo/售后FAQ.md`。
+3. 等资料状态变成“已完成”。
+4. 提问：`这个产品支持退款吗？`
+5. 展开回答里的来源，检查它引用的原文片段。
+6. 打开资料库，试一下搜索、标注、导出和素材生成。
+7. 回到工作台，在左侧历史栏里重命名或删除对话。
 
-## Optional Video Processing
-
-Douyin video processing needs a downloader command, audio transcription, and `ffmpeg`. Configure a downloader only if you want to demo video links:
+如果要演示视频链接，需要先准备下载器和 `ffmpeg`：
 
 ```dotenv
 DOUYIN_VIDEO_COMMAND=node
 DOUYIN_VIDEO_COMMAND_ARGS=["scripts/download-douyin.js","{url}","{outputDir}"]
 ```
 
-The placeholders `{url}` and `{outputDir}` are replaced at runtime.
+运行时会把 `{url}` 和 `{outputDir}` 替换成视频链接和临时输出目录。
 
-## Optional Supabase Mode
-
-Local JSON storage is the recommended demo mode. To test Supabase instead:
-
-```dotenv
-DATABASE_PROVIDER=supabase
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-```
-
-Then apply:
+## 目录结构
 
 ```text
-supabase/migrations/202606290001_initial_schema.sql
+src/app/                 Next.js 页面和 API 路由
+src/components/          工作台和资料库 UI
+src/lib/ai/              OpenAI-compatible 调用、embedding、图片/视频辅助能力
+src/lib/chat/            问答流程编排
+src/lib/db/              本地 JSON 和 Supabase 仓库
+src/lib/knowledge/       文件解析、入库、分类、导出、注释
+src/lib/rag/             检索、引用、回答策略、查询规划
+src/lib/video/           视频下载、转写、抽帧和诊断
+docs/demo/               本地演示用的示例资料
+docs/images/             README 使用的界面截图
+supabase/migrations/     可选 Supabase 数据库结构
+tests/                   单元、服务和端到端测试
 ```
 
-## Useful Commands
+## 常用命令
 
 ```bash
 npm run lint
@@ -129,18 +139,34 @@ npm run test:e2e
 npm run verify
 ```
 
-`npm run verify` runs lint, unit/service tests, and a production build. Playwright e2e tests are separate because they may need browser setup on a fresh machine.
+`npm run verify` 会依次运行 lint、单元/服务测试和生产构建。Playwright 端到端测试单独运行，因为新机器上可能需要先安装浏览器。
 
-## Privacy Notes
+## 可选：Supabase 模式
 
-- `.env.local`, `data/`, `.next/`, `node_modules/`, `output/`, and test reports are ignored by Git.
-- The local database is created at `data/local-db.json` and should not be committed.
-- Do not commit real API keys or private user documents.
-- Demo documents in `docs/demo/` are synthetic samples.
+本地 JSON 是推荐的 demo 模式。如果要测试 Supabase，可以把 `.env.local` 改成：
 
-## Known Limits
+```dotenv
+DATABASE_PROVIDER=supabase
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+```
 
-- Scanned PDFs are not OCRed; only text-extractable PDFs are supported.
-- The local hash embedding is an MVP fallback, not a semantic vector model.
-- Supabase support is optional and less complete than local demo mode for newer material-management features.
-- Video link processing depends on external downloader availability, `ffmpeg`, and transcription configuration.
+然后应用迁移文件：
+
+```text
+supabase/migrations/202606290001_initial_schema.sql
+```
+
+## 提交和隐私
+
+- `.env.local`、`data/`、`.next/`、`node_modules/`、`output/` 和测试报告都已加入 `.gitignore`。
+- 本地数据库默认生成在 `data/local-db.json`，不要提交。
+- 不要提交真实 API Key 或私人资料。
+- `docs/demo/` 里的文件是合成示例资料，适合公开 demo。
+
+## 已知限制
+
+- 扫描版 PDF 暂不支持 OCR，只支持能提取文本的 PDF。
+- 本地 hash embedding 是 MVP 兜底方案，不是真正的语义向量模型。
+- Supabase 支持是可选能力，新资料管理功能优先以本地模式验证。
+- 视频链接处理依赖外部下载器、`ffmpeg` 和转写配置，失败时需要看资料库里的诊断提示。
